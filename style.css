@@ -26,15 +26,20 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .key:hover {
-    border-color: #ff0000;
+    border-color: #FF0000;
 }
 
 .key-pressed {
-    background-color: #ff0000;
+    border-radius: 50%;
+    transition: 0.2s;
+    background-color: #FF0000;
 }
+
+
 
 #Backspace, #CapsLock, #Enter {
     width: 126px;
