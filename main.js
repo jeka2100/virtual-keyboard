@@ -218,7 +218,7 @@ function CreateKeyboard(lang, shift) {
   localStorage.setItem('KeysLang', keysLang);
   document.querySelector('.keyboard').innerHTML = '';
   let key;
-  for (let i = 0; i < lang.length; i++) {
+  for (let i = 0; i < lang.length; i += 1) {
     key = document.createElement('div');
     key.classList = 'key';
     key.id = codes[i];
