@@ -1,6 +1,7 @@
 .wrapper {
     margin: auto;
-    max-width: 990px;
+    width: 990px;
+    min-width: 990px;
     display: flex;
     flex-wrap: wrap;
 }

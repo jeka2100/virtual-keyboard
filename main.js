@@ -258,10 +258,12 @@ const ChangeLang = (keysLang1) => {
 
 let capsLock = false;
 let downKey;
-let caretPos;
+let caretStart;
+let caretEnd;
 const inputText = (ev) => {
   const textarea = document.querySelector('.text-box');
-  caretPos = textarea.selectionStart;
+  caretStart = textarea.selectionStart;
+  caretEnd = textarea.selectionEnd;
   window.event.returnValue = false;
   textarea.focus();
   if (ev === 'CapsLock') {
@@ -275,21 +277,36 @@ const inputText = (ev) => {
       capsLock = false;
     }
   } else if (ev === 'Backspace') {
-    textarea.value = textarea.value.slice(0, caretPos - 1) + textarea.value.slice(caretPos);
-    textarea.selectionStart = caretPos - 1;
-    textarea.selectionEnd = caretPos - 1;
+    if(caretStart !== caretEnd){
+      textarea.value = textarea.value.slice(0, caretStart) + textarea.value.slice(caretEnd);
+      textarea.selectionStart = caretStart;
+      textarea.selectionEnd = caretStart;  
+      console.log(caretStart);
+    }
+    else{
+      textarea.value = textarea.value.slice(0, caretStart - 1) + textarea.value.slice(caretEnd);
+      textarea.selectionStart = caretStart - 1;
+      textarea.selectionEnd = caretStart - 1;  
+    }
   } else if (ev === 'Delete') {
-    textarea.value = textarea.value.slice(0, caretPos) + textarea.value.slice(caretPos + 1);
-    textarea.selectionStart = caretPos;
-    textarea.selectionEnd = caretPos;
+    if(caretStart !== caretEnd){
+      textarea.value = textarea.value.slice(0, caretStart) + textarea.value.slice(caretEnd);
+      textarea.selectionStart = caretStart;
+      textarea.selectionEnd = caretStart;  
+    }
+    else {
+      textarea.value = textarea.value.slice(0, caretStart) + textarea.value.slice(caretEnd+1);
+      textarea.selectionStart = caretStart;
+      textarea.selectionEnd = caretStart;
+    }
   } else if (ev === 'ArrowLeft') {
-    if(caretPos !== 0) {
-      textarea.selectionStart = caretPos - 1;
-      textarea.selectionEnd = caretPos - 1;
+    if(caretStart !== 0) {
+      textarea.selectionStart = caretStart - 1;
+      textarea.selectionEnd = caretStart - 1;
     }
   } else if (ev === 'ArrowRight') {
-    textarea.selectionStart = caretPos + 1;
-    textarea.selectionEnd = caretPos + 1;
+    textarea.selectionStart = caretStart + 1;
+    textarea.selectionEnd = caretStart + 1;
   } else if (ev === 'Enter') {
     textarea.value += '\n';
   } else if (ev === 'Space') {
@@ -303,9 +320,9 @@ const inputText = (ev) => {
     ChangeCase(keysLang, 1);
     document.querySelector('#ShiftRight').classList.add('key-pressed');
   } else if (ev !== 'Tab' && ev !== 'Delete' && ev !== 'ControlLeft' && ev !== 'MetaLeft' && ev !== 'AltLeft' && ev !== 'AltRight' && ev !== 'ControlRight') {
-    textarea.value = textarea.value.slice(0, caretPos) + document.querySelector(`#${ev}`).innerText + textarea.value.slice(caretPos);
-    textarea.selectionStart = caretPos + 1;
-    textarea.selectionEnd = caretPos + 1;
+    textarea.value = textarea.value.slice(0, caretStart) + document.querySelector(`#${ev}`).innerText + textarea.value.slice(caretStart);
+    textarea.selectionStart = caretStart + 1;
+    textarea.selectionEnd = caretStart + 1;
   }
 };
 
