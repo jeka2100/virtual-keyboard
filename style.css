@@ -11,6 +11,10 @@
     resize: none;
 }
 
+.about {
+    font-size: 20px;
+}
+
 .keyboard {
     margin-top: 10px;
     display: flex;
