@@ -199,7 +199,7 @@ const enKeys = [
   '→',
 ];
 
-function CreateBaseHTML() {
+const CreateBaseHTML = () => {
   const wrapper = document.createElement('div');
   wrapper.className = 'wrapper';
   const body = document.getElementsByTagName('body');
@@ -219,10 +219,10 @@ function CreateBaseHTML() {
   const AboutP = document.createElement('p');
   AboutP.innerHTML = 'OS: Windows<br>To switch the language: Shift+Alt';
   AboutKeys.append(AboutP);
-}
+};
 
 let keysLang = localStorage.getItem('KeysLang');
-function CreateKeyboard(lang, shift) {
+const CreateKeyboard = (lang, shift) => {
   keysLang = lang === ruKeys ? 'ru' : 'en';
   localStorage.setItem('KeysLang', keysLang);
   document.querySelector('.keyboard').innerHTML = '';
@@ -238,28 +238,28 @@ function CreateKeyboard(lang, shift) {
     }
     document.querySelector('.keyboard').append(key);
   }
-}
+};
 
-function ChangeCase(keysLang1, switchTo) {
+const ChangeCase = (keysLang1, switchTo) => {
   if (keysLang1 === 'ru') {
     CreateKeyboard(ruKeys, switchTo);
   } else {
     CreateKeyboard(enKeys, switchTo);
   }
-}
+};
 
-function ChangeLang(keysLang1) {
+const ChangeLang = (keysLang1) => {
   if (keysLang1 === 'ru') {
     CreateKeyboard(enKeys, 0);
   } else {
     CreateKeyboard(ruKeys, 0);
   }
-}
+};
 
 let capsLock = false;
 let downKey;
 let caretPos;
-function inputText(ev) {
+const inputText = (ev) => {
   const textarea = document.querySelector('.text-box');
   caretPos = textarea.selectionStart;
   window.event.returnValue = false;
@@ -283,8 +283,10 @@ function inputText(ev) {
     textarea.selectionStart = caretPos;
     textarea.selectionEnd = caretPos;
   } else if (ev === 'ArrowLeft') {
-    textarea.selectionStart = caretPos - 1;
-    textarea.selectionEnd = caretPos - 1;
+    if(caretPos !== 0) {
+      textarea.selectionStart = caretPos - 1;
+      textarea.selectionEnd = caretPos - 1;
+    }
   } else if (ev === 'ArrowRight') {
     textarea.selectionStart = caretPos + 1;
     textarea.selectionEnd = caretPos + 1;
@@ -305,10 +307,10 @@ function inputText(ev) {
     textarea.selectionStart = caretPos + 1;
     textarea.selectionEnd = caretPos + 1;
   }
-}
+};
 
 const pressed = new Set();
-function KeyDown(event) {
+const KeyDown = (event) => {
   if (codes.indexOf(event.code) !== -1) {
     inputText(event.code);
     downKey = document.querySelector(`#${event.code}`);
@@ -321,10 +323,10 @@ function KeyDown(event) {
   if (pressed.has('AltLeft') && pressed.has('ShiftLeft')) {
     ChangeLang(keysLang);
   }
-}
+};
 
 
-function KeyUp(event) {
+const KeyUp = (event) => {
   if (codes.indexOf(event.code) !== -1) {
     if (event.code === 'CapsLock') {
       return;
@@ -338,16 +340,16 @@ function KeyUp(event) {
     upKey.classList.remove('key-pressed');
     pressed.delete(event.code);
   }
-}
+};
 
-function MouseDown(event) {
+const MouseDown = (event) => {
   if (event.target.classList.contains('key')) {
     event.target.classList.add('key-pressed');
     inputText(event.target.id);
   }
-}
+};
 
-function MouseUp(event) {
+const MouseUp = (event) => {
   if (event.target.classList.contains('key')) {
     if (event.target.id === 'ShiftLeft' || event.target.id === 'ShiftRight') {
       ChangeCase(keysLang, 0);
@@ -356,7 +358,7 @@ function MouseUp(event) {
     }
     event.target.classList.remove('key-pressed');
   }
-}
+};
 
 CreateBaseHTML();
 CreateKeyboard(keysLang === 'ru' ? ruKeys : enKeys, 0);
