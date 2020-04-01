@@ -307,11 +307,17 @@ const inputText = (ev) => {
     textarea.selectionStart = caretStart + 1;
     textarea.selectionEnd = caretStart + 1;
   } else if (ev === 'Enter') {
-    textarea.value += '\n';
+    textarea.value = textarea.value.slice(0, caretStart) + '\n' + textarea.value.slice(caretStart);
+    textarea.selectionStart = caretStart + 1;
+    textarea.selectionEnd = caretStart + 1;
   } else if (ev === 'Space') {
-    textarea.value += ' ';
+    textarea.value = textarea.value.slice(0, caretStart) + ' ' + textarea.value.slice(caretStart);
+    textarea.selectionStart = caretStart + 1;
+    textarea.selectionEnd = caretStart + 1;
   } else if (ev === 'Tab') {
-    textarea.value += '    ';
+    textarea.value = textarea.value.slice(0, caretStart) + '    ' + textarea.value.slice(caretStart);
+    textarea.selectionStart = caretStart + 4;
+    textarea.selectionEnd = caretStart + 4;
   } else if (ev === 'ShiftLeft') {
     ChangeCase(keysLang, 1);
     document.querySelector('#ShiftLeft').classList.add('key-pressed');
