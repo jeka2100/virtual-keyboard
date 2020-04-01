@@ -281,7 +281,6 @@ const inputText = (ev) => {
       textarea.value = textarea.value.slice(0, caretStart) + textarea.value.slice(caretEnd);
       textarea.selectionStart = caretStart;
       textarea.selectionEnd = caretStart;  
-      console.log(caretStart);
     }
     else{
       textarea.value = textarea.value.slice(0, caretStart - 1) + textarea.value.slice(caretEnd);
